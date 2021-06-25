@@ -1,0 +1,9 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 42 42">
+    <g fill="currentColor" fill-rule="evenodd">
+        <path d="M21.085 3.387c-3.254 3.698-3.254 7.396 0 11.094 3.254 3.698 3.254 8.09 0 13.174V42l-13.017-.693L6 38.533V17.254l2.881-4.853L21.085 2v1.387z" fill-opacity=".1"/>
+        <path d="M11 8h22-22zm28 9v19a6 6 0 0 1-6 6H11a6 6 0 0 1-6-6V17h2v19a4 4 0 0 0 4 4h22a4 4 0 0 0 4-4V17h2z"/>
+        <path d="M22 27a6 6 0 0 1 6 6v8H16v-8a6 6 0 0 1 6-6z" stroke="currentColor" stroke-width="2" fill-opacity=".1"/>
+        <rect transform="scale(-1 1) rotate(-45 0 88.569)" x="17" y="10.314" width="30" height="2" rx="1"/>
+        <rect transform="rotate(-45 12 11.314)" x="-3" y="10.314" width="30" height="2" rx="1"/>
+    </g>
+</svg>
