@@ -1,69 +1,107 @@
 ﻿<template>
-  <div class="container">
-    SOMETHING
-
-    <h1 class="title">Scan 1D/2D Code from Video Camera</h1>
-
-    <div>
-      <a class="button" ref="startButton">Start</a>
-      <a class="button" ref="resetButton">Reset</a>
-    </div>
-
-    <div>
+<div
+    class="
+      min-h-screen
+      flex flex-shrink-0 flex-grow-0 flex-col
+      justify-center
+      items-center
+      bg-gradient-to-r
+      from-gray-600
+      to-gray-500
+    "
+  >
+    <a
+      @click="callStartScanning"
+      class="
+        bg-blue-500
+        rounded-lg
+        font-bold
+        text-white text-center
+        px-4
+        py-3
+        transition
+        duration-300
+        ease-in-out
+        hover:bg-blue-600
+      "
+    >
+      Dodaj pierwszą kartę
+    </a>
+    <a
+      @click="callResetScanning"
+      class="
+        bg-blue-800
+        rounded-lg
+        font-bold
+        text-white text-center
+        px-4
+        py-3
+        transition
+        duration-300
+        ease-in-out
+        hover:bg-blue-600
+      "
+    >
+      Resetuj
+    </a>
       <video
-        id="video"
         ref="videoV"
-        width="300"
-        height="200"
-        style="border: 1px solid gray"
+        class="vid"
       ></video>
-    </div>
 
     <label>Result:</label>
     <code ref="resultV"></code>
 
-    <p>
-      See the
-      <a href="https://github.com/zxing-js/library/tree/master/docs/examples/multi-camera/"
-        >source code</a
-      >
-      for this example.
-    </p>
   </div>
 </template>
 
-<script setup>
-import { BrowserMultiFormatReader, BarcodeFormat } from '@zxing/library'
+<script>
+import { BrowserMultiFormatReader } from '@zxing/library'
 import { ref, onMounted } from 'vue'
 
-const startButton = ref(null)
-const resetButton = ref(null)
-const videoV = ref(null)
-const resultV = ref(null)
+const startScanning = (codeReader, videoV, resultV) => {
 
-const codeReader = new BrowserMultiFormatReader()
-
-let selectedDeviceId
-onMounted(() => {
-  startButton.value.addEventListener('click', () => {
-    codeReader.decodeFromVideoDevice('', videoV.value, (result, err) => {
-      if (result) {
-        resultV.value.textContent = result
-      }
-    })
-    console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
+  codeReader.decodeFromVideoDevice('', videoV, (result, err) => {
+    if (result) {
+      resultV.textContent = result.text
+    }
   })
+  console.log(`Started continous decode from camera with id `)
 
-  resetButton.value.addEventListener('click', () => {
-    codeReader.reset()
-    result.textContent = ''
-    console.log('Reset.')
-  })
-})
+}
+
+const resetScanning = (codeReader, resultV) => {
+  console.log(resultV)
+  codeReader.reset()
+  resultV.textContent = ''
+  console.log('Reset.')
+
+}
+export default {
+  setup() {
+    const videoV = ref(null)
+    const resultV = ref(null)
+    const codeReader = new BrowserMultiFormatReader()
+
+    const callStartScanning = ()=> startScanning(codeReader, videoV.value, resultV.value)
+    const callResetScanning = ()=> resetScanning(codeReader, resultV.value)
+
+    return {
+      callStartScanning,
+      callResetScanning,
+      videoV,resultV
+    }
+  },
+}
 </script>
 
 <style scoped>
 .container {
   display: inline-block;
+}
+
+.vid {
+  width:50vw;
+  height:50vh
 }
 </style>
