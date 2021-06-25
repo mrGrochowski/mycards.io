@@ -19,7 +19,7 @@
     </div>
 
     <label>Result:</label>
-    <pre><code ref="result"></code></pre>
+    <code ref="resultV"></code>
 
     <p>
       See the
@@ -41,7 +41,7 @@ const sourceSelect = ref(null)
 const startButton = ref(null)
 const resetButton = ref(null)
 const video = ref(null)
-const result = ref(null)
+const resultV = ref(null)
 
 let selectedDeviceId
 console.clear()
@@ -67,15 +67,14 @@ onMounted(() => {
 
       startButton.value.addEventListener('click', () => {
         codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
-          console.log(result)
-          if (result.value) {
-            console.log(result.value)
-            result.value.innerText = result.text
+          if (result) {
+            //resultV.value.textContent = result.text
+            resultV.value.textContent = result
           }
-          if (err) {
-            console.error(err)
-            result.value.innerText = err
-          }
+          // if (err) {
+          //   console.error(err)
+          //   resultV.value.textContent = err
+          // }
         })
         console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
       })
@@ -94,6 +93,6 @@ onMounted(() => {
 
 <style scoped>
 .container {
-  display: flex;
+  display: inline-block;
 }
 </style>
