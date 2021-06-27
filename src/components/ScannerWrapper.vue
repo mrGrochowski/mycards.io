@@ -74,10 +74,8 @@ const startScanning = (codeReader, videoV, resultV) => {
 }
 
 const resetScanning = (codeReader, resultV) => {
-  console.log(resultV)
   codeReader.reset()
   resultV.textContent = ''
-  console.log('Reset.')
 }
 export default {
   setup() {
@@ -105,7 +103,7 @@ export default {
 .specialGradient {
   background: linear-gradient(
     43deg,
-    rgba(55, 59, 68, 0.432) 69%,
+    rgba(55, 59, 68, 0.432) 30%,
     rgba(153, 150, 201, 0.342) 100%
   );
   backdrop-filter: blur(10px);
