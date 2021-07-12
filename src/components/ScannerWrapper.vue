@@ -1,69 +1,112 @@
 ﻿<template>
-  <div class="container">
-    SOMETHING
-
-    <h1 class="title">Scan 1D/2D Code from Video Camera</h1>
-
-    <div>
-      <a class="button" ref="startButton">Start</a>
-      <a class="button" ref="resetButton">Reset</a>
-    </div>
-
-    <div>
-      <video
-        id="video"
-        ref="videoV"
-        width="300"
-        height="200"
-        style="border: 1px solid gray"
-      ></video>
-    </div>
-
-    <label>Result:</label>
-    <code ref="resultV"></code>
-
-    <p>
-      See the
-      <a href="https://github.com/zxing-js/library/tree/master/docs/examples/multi-camera/"
-        >source code</a
+  <div class="relative h-screen w-screen flex justify-center items-center">
+    <video
+      ref="videoV"
+      class="h-screen z-0 w-screen absolute select-none pointer-events-none object-cover"
+    ></video>
+    <div
+      class="
+        inline-flex w-3/4 h-4/4
+        flex-shrink-0 flex-grow-0 flex-wrap
+        justify-center
+        items-center
+        z-10
+        relative
+        p-9
+        rounded-lg
+        specialGradient
+      "
+    >
+      <h2 class="text-white text-4xl">Skan karty</h2>
+      <a
+        @click="callStartScanning"
+        class="
+          bg-blue-600
+          rounded-lg
+          font-bold
+          text-white text-center
+          px-4
+          py-3
+          transition
+          duration-300
+          ease-in-out
+          hover:bg-blue-700
+        "
       >
-      for this example.
-    </p>
+        Dodaj pierwszą kartę
+      </a>
+      <a
+        @click="callResetScanning"
+        class="
+          bg-blue-500
+          rounded-lg
+          font-bold
+          text-white text-center
+          px-4
+          py-3
+          transition
+          duration-300
+          ease-in-out
+          hover:bg-blue-600
+        "
+      >
+        Resetuj
+      </a>
+      <div class="align-bottom justify-end w-auto min-w-3/4 h-16 p-4">
+        <label>Result:</label>
+        <code class="w-2/3 inline-block" ref="resultV"></code>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup>
-import { BrowserMultiFormatReader, BarcodeFormat } from '@zxing/library'
+<script>
+import { BrowserMultiFormatReader } from '@zxing/library'
 import { ref, onMounted } from 'vue'
 
-const startButton = ref(null)
-const resetButton = ref(null)
-const videoV = ref(null)
-const resultV = ref(null)
-
-const codeReader = new BrowserMultiFormatReader()
-
-let selectedDeviceId
-onMounted(() => {
-  startButton.value.addEventListener('click', () => {
-    codeReader.decodeFromVideoDevice('', videoV.value, (result, err) => {
-      if (result) {
-        resultV.value.textContent = result
-      }
-    })
-    console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
+const startScanning = (codeReader, videoV, resultV) => {
+  codeReader.decodeFromVideoDevice('', videoV, (result, err) => {
+    if (result) {
+      resultV.textContent = result.text
+    }
   })
+  console.log(`Started continous decode from camera with id `)
+}
 
-  resetButton.value.addEventListener('click', () => {
-    codeReader.reset()
-    result.textContent = ''
-    console.log('Reset.')
-  })
-})
+const resetScanning = (codeReader, resultV) => {
+  codeReader.reset()
+  resultV.textContent = ''
+}
+export default {
+  setup() {
+    const videoV = ref(null)
+    const resultV = ref(null)
+    const codeReader = new BrowserMultiFormatReader()
+
+    const callStartScanning = () => startScanning(codeReader, videoV.value, resultV.value)
+    const callResetScanning = () => resetScanning(codeReader, resultV.value)
+
+    return {
+      callStartScanning,
+      callResetScanning,
+      videoV,
+      resultV,
+    }
+  },
+}
 </script>
 
 <style scoped>
-.container {
-  display: inline-block;
+.z--1 {
+  z-index: -1;
+}
+.specialGradient {
+  background: linear-gradient(
+    43deg,
+    rgba(55, 59, 68, 0.432) 30%,
+    rgba(153, 150, 201, 0.342) 100%
+  );
+  backdrop-filter: blur(10px);
+  box-shadow: 0px 0px 40px rgba(67, 65, 87, 0.63);
 }
 </style>

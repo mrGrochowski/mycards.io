@@ -31,7 +31,7 @@
         "
       >
         <Category class="inline-block mb-1" />
-        <span class="tab tab-kategori block text-xs">Category</span>
+        <span class="tab tab-kategori block text-xs">Cards</span>
       </a>
       <a
         href="#"
@@ -47,7 +47,7 @@
         "
       >
         <Compass class="inline-block mb-1" />
-        <span class="tab tab-explore block text-xs">Explore</span>
+        <span class="tab tab-explore block text-xs">Account</span>
       </a>
     </div>
   </nav>
