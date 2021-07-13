@@ -6,13 +6,15 @@
     ></video>
     <div
       class="
-        inline-flex w-3/4 h-4/6 sm:h-1/2 sm:w-1/2
+        inline-flex
+        w-3/4
+        h-4/4
         flex-shrink-0 flex-grow-0 flex-wrap
         justify-center
         items-center
         z-10
         relative
-        p-9 
+        p-9
         rounded-lg
         specialGradient
       "
@@ -57,32 +59,11 @@
         <code class="w-2/3 inline-block" ref="resultV"></code>
       </div>
     </div>
-
-    <div>
-      <video
-        id="video"
-        ref="videoV"
-        width="300"
-        height="200"
-        style="border: 1px solid gray"
-      ></video>
-    </div>
-
-    <label>Result:</label>
-    <code ref="resultV"></code>
-
-    <p>
-      See the
-      <a href="https://github.com/zxing-js/library/tree/master/docs/examples/multi-camera/"
-        >source code</a
-      >
-      for this example.
-    </p>
   </div>
 </template>
 
 <script>
-import {setBase , writeToBase, getFromBase} from "../composables/storage.vue"
+import { setBase, writeToBase, getFromBase } from '../composables/storage.vue'
 import { BrowserMultiFormatReader } from '@zxing/library'
 import { ref, onMounted } from 'vue'
 
@@ -92,29 +73,26 @@ const startScanning = (codeReader, videoV, resultV) => {
       resultV.textContent = result.text
     }
   })
+  console.log(`Started continous decode from camera with id `)
 }
 
-const codeReader = new BrowserMultiFormatReader()
+const resetScanning = (codeReader, resultV) => {
+  codeReader.reset()
+  resultV.textContent = ''
+}
+export default {
+  setup() {
+    const videoV = ref(null)
+    const resultV = ref(null)
+    const codeReader = new BrowserMultiFormatReader()
 
-let selectedDeviceId
-onMounted(() => {
-  startButton.value.addEventListener('click', () => {
-    codeReader.decodeFromVideoDevice('', videoV.value, (result, err) => {
-      if (result) {
-        resultV.value.textContent = result
-      }
-    })
-    console.log(`Started continous decode from camera with id ${selectedDeviceId}`)
-  })
+    const callStartScanning = () => startScanning(codeReader, videoV.value, resultV.value)
+    const callResetScanning = () => resetScanning(codeReader, resultV.value)
 
     setBase()
-    //writeToBase()
+    writeToBase()
     getFromBase()
-    onMounted(()=>{
 
-
-      //callStartScanning()
-    })
     return {
       callStartScanning,
       callResetScanning,
@@ -126,7 +104,12 @@ onMounted(() => {
 </script>
 
 <style scoped>
-.container {
-  display: inline-block;
+.z--1 {
+  z-index: -1;
+}
+.specialGradient {
+  background: linear-gradient(43deg, rgba(55, 59, 68, 0.432) 30%, rgba(153, 150, 201, 0.342) 100%);
+  backdrop-filter: blur(10px);
+  box-shadow: 0px 0px 40px rgba(67, 65, 87, 0.63);
 }
 </style>
